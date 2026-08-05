@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistem Pengolahan Nilai & Rapor Siswa — SMK Yappenda & Politeknik Astra">
+    <title>Portal Nilai & Rapor Siswa — SMK Yappenda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800;900&family=Barlow+Condensed:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ============ HEADER BAR ============ -->
+    <header class="app-header">
+        <div class="header-inner">
+            <div class="header-brand">
+                <span class="header-logo">📊</span>
+                <div class="header-titles">
+                    <span class="header-title">PORTAL NILAI & RAPOR SISWA SMK YAPPENDA</span>
+                    <span class="header-subtitle">Politeknik Astra — Jurusan Informatika</span>
+                </div>
+            </div>
+            <div class="header-info">
+                <span class="status-badge"><span class="status-dot"></span> Sistem Aktif</span>
+                <span class="header-date" id="liveClock">--:--:--</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ MAIN APP ============ -->
+    <div class="app">
+        <!-- LEFT: Form Input & Daftar Nilai -->
+        <section class="catalog-section">
+            <div class="catalog-header">
+                <div class="catalog-title-group">
+                    <h1 class="app-title">📊 Pengolahan Nilai Siswa</h1>
+                    <span class="app-subtitle">Sistem Rapor Digital</span>
+                </div>
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Cari mata pelajaran...">
+                </div>
+            </div>
+
+            <!-- Form Input Nilai Baru -->
+            <div class="grade-form-card">
+                <h3 class="form-card-title">📝 Input Nilai Mata Pelajaran</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nama Mata Pelajaran</label>
+                        <input type="text" id="inputMapel" placeholder="Contoh: Pemrograman Web">
+                    </div>
+                    <div class="form-group">
+                        <label>Nilai Tugas (20%)</label>
+                        <input type="number" id="inputTugas" placeholder="0-100" min="0" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Nilai UTS (30%)</label>
+                        <input type="number" id="inputUTS" placeholder="0-100" min="0" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Nilai UAS (40%)</label>
+                        <input type="number" id="inputUAS" placeholder="0-100" min="0" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Nilai Absensi (10%)</label>
+                        <input type="number" id="inputAbsen" placeholder="0-100" min="0" max="100">
+                    </div>
+                    <div class="form-group btn-group">
+                        <button class="btn-add-grade" id="btnTambahNilai">+ Simpan Nilai</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabel Daftar Nilai -->
+            <div class="table-container">
+                <table class="grade-table">
+                    <thead>
+                        <tr>
+                            <th>Mata Pelajaran</th>
+                            <th>Tugas</th>
+                            <th>UTS</th>
+                            <th>UAS</th>
+                            <th>Absen</th>
+                            <th>Nilai Akhir</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gradeTableBody">
+                        <!-- Table rows injected by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- RIGHT: Ringkasan Rapor & Statistik -->
+        <section class="cart-section">
+            <div class="cart-header">
+                <h2 class="cart-title">🎓 Ringkasan Rapor</h2>
+                <span class="borrow-count" id="mapelCountBadge">0 Mapel</span>
+            </div>
+
+            <!-- Student Profile -->
+            <div class="member-card">
+                <div class="member-avatar">👨‍🎓</div>
+                <div class="member-info">
+                    <strong>Budi Santoso</strong>
+                    <span>NIS: 20261042 • XI Rekayasa Perangkat Lunak</span>
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="summary-widgets">
+                <div class="widget-box">
+                    <span class="widget-label">Rata-Rata Nilai</span>
+                    <span class="widget-value" id="avgGradeValue">0.0</span>
+                </div>
+                <div class="widget-box">
+                    <span class="widget-label">Predikat Kelulusan</span>
+                    <span class="widget-badge" id="statusBadge">—</span>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>KKM Minimum</span>
+                    <span class="summary-value">75.0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Total Mata Pelajaran</span>
+                    <span class="summary-value" id="totalMapelCount">0</span>
+                </div>
+                <div class="summary-row total-row">
+                    <span>STATUS RAPOR</span>
+                    <span class="summary-value total-value" id="overallStatusText">—</span>
+                </div>
+
+                <button class="btn-pay" id="btnCetakRapor" disabled>📜 Cetak Transkrip Rapor</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- ============ MODAL RAPOR SISWA ============ -->
+    <div class="modal-overlay hidden" id="reportOverlay">
+        <div class="receipt-modal">
+            <div class="receipt-content" id="reportContent">
+                <!-- Report generated by JS -->
+            </div>
+            <div class="receipt-actions">
+                <button class="btn-new-transaction" id="btnSelesaiRapor">✅ Selesai</button>
+                <button class="btn-close-receipt" id="btnCloseReport">✕ Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast hidden" id="toast">
+        <span id="toastIcon">✅</span>
+        <span id="toastText"></span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
